@@ -49,7 +49,7 @@ public class Puzzle extends JFrame implements ActionListener {
 
 	public void arrange() {
 		for (int i = 1; i < 10; i++) {
-			Icon ic = new ImageIcon("/Puzzle_Java/" + i + ".jpg");
+			Icon ic = new ImageIcon("./Puzzle_Java/" + i + ".jpg");
 			images.add(ic);
 		}
 	}

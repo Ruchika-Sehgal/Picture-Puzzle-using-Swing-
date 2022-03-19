@@ -82,14 +82,7 @@ public class Puzzle extends JFrame implements ActionListener {
 		System.out.println(rand+"");
 		for (int i = 0; i < 9; i++) {
 			// Icon ic = new ImageIcon("E:/Ruchika/Swing/Puzzle_Java/" + i + ".jpg");
-		//***************************
 		
-		
-		
-		
-		
-		
-		//************************/
 			BufferedImage[] finaliImages = createPartitions(rand);
 			// BufferedImage piece= [i];
 

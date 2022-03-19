@@ -1,9 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class Puzzle extends JFrame implements ActionListener {
@@ -12,15 +17,20 @@ public class Puzzle extends JFrame implements ActionListener {
 	JPanel jp;
 	Boolean firstClick = false;
 	JButton firstButton, secondButton;
-
 	public Puzzle() {
 		super("Picture Puzzle");
 		setSize(500, 500);
-		setResizable(false);
-		arrange();
+		// ImageIcon i= new ImageIcon().getImage().getScaledInstance(30, 30, DO_NOTHING_ON_CLOSE));
+
+		Image icon = Toolkit.getDefaultToolkit().getImage("E:/Ruchika/Swing/Images/SquareImages/Icon.jpg");
+		
+		setIconImage(icon);// setResizable(false);
+		store();
 		init();
+		
 	}
 	
+	//Initialtes the entire game, adds panels and menus
 	public void init() {
 		jp = new JPanel();
 		// jp.setLayout(new GridLayout());
@@ -35,23 +45,99 @@ public class Puzzle extends JFrame implements ActionListener {
 				getContentPane().removeAll();
 				init();
 				System.out.println("Reset done");
-				
+
 			}
 		});
 		// getContentPane().
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JButton newGame = new JButton(new ImageIcon(new ImageIcon("E:/Ruchika/Swing/Images/SquareImages/newGame.png").getImage().getScaledInstance(30, 30, DO_NOTHING_ON_CLOSE)));
+		newGame.setMaximumSize(new Dimension(30, 30));
+		newGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				Buttons.clear();
+				images.clear();
+				getContentPane().removeAll();
+				store();
+				init();
+				System.out.println("New Game created");
+			}
+		});
+		JToolBar Bar = new JToolBar();
+		// Bar.setSize(BorderLayout., );
+		Bar.add(newGame);
+		// JMenuBar menu = new JMenuBar();
+		// menu.add(file);
 		createButtons();
 		getContentPane().add(reset, BorderLayout.SOUTH);
+		getContentPane().add(Bar, BorderLayout.NORTH);
 		setVisible(true);
-		
 
 	}
+	
 
-	public void arrange() {
-		for (int i = 1; i < 10; i++) {
-			Icon ic = new ImageIcon("./Puzzle_Java/" + i + ".jpg");
-			images.add(ic);
+	//it stores those buttons in their respective partitions, internally calls the partition method...
+	// for making partions within the image and scaling these partitions accurately.
+	public void store() {
+		int rand = (int) (((Math.random() + Math.random())*10)%6);
+		System.out.println(rand+"");
+		for (int i = 0; i < 9; i++) {
+			// Icon ic = new ImageIcon("E:/Ruchika/Swing/Puzzle_Java/" + i + ".jpg");
+		//***************************
+		
+		
+		
+		
+		
+		
+		//************************/
+			BufferedImage[] finaliImages = createPartitions(rand);
+			// BufferedImage piece= [i];
+
+			images.add(new ImageIcon(finaliImages[i]));
 		}
+	}
+
+	BufferedImage[] createPartitions(int rand) {
+		System.setProperty("http.agent", "Chrome");
+		File image = new File("E:/Ruchika/Swing/Images/SquareImages/" + rand + ".jpg");
+
+		try {
+			BufferedImage srcImg = ImageIO.read(image);
+			int rows = 3;
+			int columns = 3;
+			int srcImgWidth = srcImg.getWidth();
+			int srcImgHeight = srcImg.getHeight();
+			BufferedImage[] pieces = new BufferedImage[9];
+			int piecesWidth = srcImgWidth / columns;
+			int piecesHeight = srcImgHeight / rows;
+			int currentImg = 0;
+
+			for(int i=0; i<3; ++i){
+				for (int j = 0; j < 3; j++) {
+					pieces[currentImg] = new BufferedImage(piecesWidth, piecesHeight, srcImg.getType());
+					Graphics2D piece = pieces[currentImg].createGraphics();
+
+					int src_first_x = j * piecesWidth;
+					//It gives the two diagonal points with 0,0 set at top left corner. 
+					//Adjust the width with the no of columns as the columns divide the width into equal parts.
+					//Similarly adjust the height with the rows. 
+
+					int src_first_y = i * piecesHeight;
+
+					int corner_x = src_first_x + piecesWidth;
+					int corner_y = src_first_y + piecesHeight;
+
+					piece.drawImage(srcImg, 0, 0, piecesWidth, piecesHeight, src_first_x, src_first_y, corner_x,
+							corner_y, null);
+					currentImg++;
+
+				}
+			}
+			return pieces;
+		} catch (IOException e) {
+			System.out.println("Falied to load image due to exception" + e);
+		}
+		return null;
 	}
 
 	public void createButtons() {
@@ -70,7 +156,7 @@ public class Puzzle extends JFrame implements ActionListener {
 	}
 
 	public Icon resizeImage(Icon icon) {
-		ImageIcon imcon = new ImageIcon(((ImageIcon) icon).getImage().getScaledInstance(155, 155, DO_NOTHING_ON_CLOSE));
+		ImageIcon imcon = new ImageIcon(((ImageIcon) icon).getImage().getScaledInstance(172, 172, DO_NOTHING_ON_CLOSE));
 		return imcon;
 	}
 
@@ -126,4 +212,5 @@ public class Puzzle extends JFrame implements ActionListener {
 	}
 
 }
+
 

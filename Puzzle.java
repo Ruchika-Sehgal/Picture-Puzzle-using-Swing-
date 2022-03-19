@@ -22,7 +22,7 @@ public class Puzzle extends JFrame implements ActionListener {
 		setSize(500, 500);
 		// ImageIcon i= new ImageIcon().getImage().getScaledInstance(30, 30, DO_NOTHING_ON_CLOSE));
 
-		Image icon = Toolkit.getDefaultToolkit().getImage("E:/Ruchika/Swing/Images/SquareImages/Icon.jpg");
+		Image icon = Toolkit.getDefaultToolkit().getImage("./Images/Icon.jpg");
 		
 		setIconImage(icon);// setResizable(false);
 		store();
@@ -50,7 +50,7 @@ public class Puzzle extends JFrame implements ActionListener {
 		});
 		// getContentPane().
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JButton newGame = new JButton(new ImageIcon(new ImageIcon("E:/Ruchika/Swing/Images/SquareImages/newGame.png").getImage().getScaledInstance(30, 30, DO_NOTHING_ON_CLOSE)));
+		JButton newGame = new JButton(new ImageIcon(new ImageIcon("./Images/newGame.png").getImage().getScaledInstance(30, 30, DO_NOTHING_ON_CLOSE)));
 		newGame.setMaximumSize(new Dimension(30, 30));
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -92,7 +92,7 @@ public class Puzzle extends JFrame implements ActionListener {
 
 	BufferedImage[] createPartitions(int rand) {
 		System.setProperty("http.agent", "Chrome");
-		File image = new File("E:/Ruchika/Swing/Images/SquareImages/" + rand + ".jpg");
+		File image = new File("./Images/" + rand + ".jpg");
 
 		try {
 			BufferedImage srcImg = ImageIO.read(image);
